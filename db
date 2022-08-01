@@ -1,0 +1,322 @@
+CREATE DATABASE projeto_conta_sql;
+
+CREATE TABLE cliente(
+	id INT NOT NULL,
+	nome VARCHAR(80) NOT NULL,
+	cpf VARCHAR(11) NOT NULL,
+	rg VARCHAR(15) NOT NULL,
+	CONSTRAINT pk_cliente PRIMARY KEY(id)
+);
+
+CREATE TABLE conta(
+	id INT NOT NULL,
+	numero INT NOT NULL,
+	digito INT NOT NULL,
+	id_tipo INT NOT NULL,
+	id_agencia INT NOT NULL,
+	CONSTRAINT pk_conta PRIMARY KEY(id)
+);
+
+CREATE TABLE agencia(
+	id INT NOT NULL,
+	nome VARCHAR(80) NOT NULL,
+	CONSTRAINT pk_agencia PRIMARY KEY(id)
+);
+
+CREATE TABLE endereco_cliente(
+	id INT NOT NULL,
+	rua VARCHAR(255) NOT NULL,
+	numero INT NOT NULL,
+	bairro VARCHAR(150) NOT NULL,
+	cidade VARCHAR(80) NOT NULL,
+	estado VARCHAR(2) NOT NULL,
+	cep INT NOT NULL,
+	id_cliente INT NOT NULL,
+	CONSTRAINT pk_endereco_cliente PRIMARY KEY(id)
+);
+
+CREATE TABLE contato_cliente(
+	id INT NOT NULL,
+	telefone INT NOT NULL,
+	id_cliente INT NOT NULL,
+	CONSTRAINT pk_contato_cliente PRIMARY KEY(id)
+);
+
+CREATE TABLE tipo_conta(
+	id INT NOT NULL,
+	tipo VARCHAR(80),
+	CONSTRAINT pk_tipo_conta PRIMARY KEY(id)
+);
+
+CREATE TABLE endereco_agencia(
+	id INT NOT NULL,
+	rua VARCHAR(255) NOT NULL,
+	numero INT NOT NULL,
+	bairro VARCHAR(150) NOT NULL,
+	cidade VARCHAR(80) NOT NULL,
+	estado VARCHAR(2) NOT NULL,
+	cep INT NOT NULL,
+	id_agencia INT NOT NULL,
+	CONSTRAINT pk_endereco_agencia PRIMARY KEY(id)
+);
+
+CREATE TABLE contato_agencia(
+	id INT NOT NULL,
+	telefone INT NOT NULL,
+	id_agencia INT NOT NULL,
+	CONSTRAINT pk_contato_agencia PRIMARY KEY(id)
+);
+
+CREATE TABLE cliente_conta(
+	id_cliente INT NOT NULL,
+	id_conta INT NOT NULL,
+	CONSTRAINT pk_cliente_conta PRIMARY KEY(id_cliente, id_conta)
+);
+
+CREATE TABLE operacao(
+	id INT NOT NULL,
+	valor DECIMAL(18,6) NOT NULL,
+	data_hora DATETIME NOT NULL,
+	id_tipo_operacao INT NOT NULL,
+	id_conta INT NOT NULL,
+	CONSTRAINT pk_operacao PRIMARY KEY(id)
+);
+
+CREATE TABLE tipo_operacao(
+	id INT NOT NULL,
+	tipo VARCHAR(80),
+	CONSTRAINT pk_tipo_operacao PRIMARY KEY(id)
+);
+
+ALTER TABLE endereco_cliente ADD CONSTRAINT fk_cliente_endereco_cliente
+FOREIGN KEY (id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE contato_cliente ADD CONSTRAINT fk_cliente_contato_cliente
+FOREIGN KEY (id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE cliente_conta ADD CONSTRAINT fk_cliente_cliente_conta
+FOREIGN KEY (id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE cliente_conta ADD CONSTRAINT fk_conta_cliente_conta
+FOREIGN KEY (id_conta) REFERENCES conta(id);
+
+ALTER TABLE conta ADD CONSTRAINT fk_tipo_conta_conta
+FOREIGN KEY (id_tipo) REFERENCES tipo_conta(id);
+
+ALTER TABLE conta ADD CONSTRAINT fk_agencia_conta
+FOREIGN KEY (id_agencia) REFERENCES agencia(id);
+
+ALTER TABLE endereco_agencia ADD CONSTRAINT fk_agencia_endereco_agencia
+FOREIGN KEY (id_agencia) REFERENCES agencia(id);
+
+ALTER TABLE contato_agencia ADD CONSTRAINT fk_agencia_contato_agencia
+FOREIGN KEY (id_agencia) REFERENCES agencia(id);
+
+ALTER TABLE operacao ADD CONSTRAINT fk_operacao_tipo_operacao
+FOREIGN KEY (id_tipo_operacao) REFERENCES tipo_operacao(id);
+
+ALTER TABLE operacao ADD CONSTRAINT fk_operacao_conta
+FOREIGN KEY (id_conta) REFERENCES conta(id);
+
+insert into cliente (id, nome, cpf, rg) values (1, 'Tadd Tatterton', '115092599-X', '965876002-3');
+insert into cliente (id, nome, cpf, rg) values (2, 'Ringo Tuer', '571718726-2', '057100622-1');
+insert into cliente (id, nome, cpf, rg) values (3, 'Cathrin McMarquis', '014354144-7', '529490712-7');
+insert into cliente (id, nome, cpf, rg) values (4, 'Nestor Boseley', '638054956-0', '460565584-0');
+insert into cliente (id, nome, cpf, rg) values (5, 'Maxwell Basili', '010211092-1', '145985994-4');
+insert into cliente (id, nome, cpf, rg) values (6, 'Aline Gilbertson', '583588637-3', '137111792-6');
+insert into cliente (id, nome, cpf, rg) values (7, 'Nelie Hurler', '790066023-2', '487767824-7');
+insert into cliente (id, nome, cpf, rg) values (8, 'Garrek Hosier', '325470785-0', '391467244-7');
+insert into cliente (id, nome, cpf, rg) values (9, 'Gabi Bahia', '146802905-3', '270215675-4');
+insert into cliente (id, nome, cpf, rg) values (10, 'Jody Keeley', '695397130-4', '394344480-5');
+insert into cliente (id, nome, cpf, rg) values (11, 'Brooke Hanbridge', '005646990-X', '652749211-1');
+insert into cliente (id, nome, cpf, rg) values (12, 'Wain Clynman', '122636602-3', '512763690-5');
+insert into cliente (id, nome, cpf, rg) values (13, 'Jacob Whall', '656143458-7', '081288173-7');
+insert into cliente (id, nome, cpf, rg) values (14, 'Oby Mulligan', '668829266-1', '690363323-5');
+insert into cliente (id, nome, cpf, rg) values (15, 'Jay Chess', '432392539-5', '342054116-3');
+insert into cliente (id, nome, cpf, rg) values (16, 'Gena Platfoot', '563660132-8', '524139613-6');
+insert into cliente (id, nome, cpf, rg) values (17, 'Joel Janson', '640722084-X', '186192895-5');
+insert into cliente (id, nome, cpf, rg) values (18, 'Alvera Storrie', '769155735-3', '690625909-1');
+insert into cliente (id, nome, cpf, rg) values (19, 'Godfree Imorts', '484226816-6', '960383142-5');
+insert into cliente (id, nome, cpf, rg) values (20, 'Sybille Anersen', '369021037-2', '711686588-8');
+
+insert into agencia (id, nome) values (1, 'Jundiai');
+insert into agencia (id, nome) values (2, 'Sao Paulo');
+insert into agencia (id, nome) values (3, 'Osasco');
+insert into agencia (id, nome) values (4, 'Curitiba');
+insert into agencia (id, nome) values (5, 'Rio de Janeiro');
+
+insert into tipo_conta (id, tipo) values (1, 'Corrente');
+insert into tipo_conta (id, tipo) values (2, 'Poupanca');
+insert into tipo_conta (id, tipo) values (3, 'Investimento');
+
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (1, 00010, 0, 1, 1);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (2, 00011, 1, 1, 1);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (3, 00020, 0, 2, 3);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (4, 00012, 2, 1, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (5, 00030, 0, 3, 5);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (6, 00013, 2, 1, 1);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (7, 00031, 1, 3, 5);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (8, 00014, 6, 1, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (9, 00021, 1, 2, 2);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (10, 00032, 0, 3, 2);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (11, 00022, 3, 2, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (12, 00015, 0, 1, 5);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (13, 00016, 2, 1, 2);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (14, 00017, 2, 1, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (15, 00018, 2, 1, 2);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (16, 00033, 3, 3, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (17, 00019, 2, 1, 3);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (18, 00110, 2, 1, 3);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (19, 00023, 4, 2, 5);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (20, 00024, 5, 2, 3);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (21, 00111, 2, 1, 3);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (22, 00025, 3, 2, 5);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (23, 00034, 5, 3, 1);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (24, 00035, 2, 3, 4);
+insert into conta (id, numero, digito, id_tipo, id_agencia) values (25, 00026, 5, 2, 1);
+
+insert into cliente_conta (id_cliente, id_conta) values (1, 1);
+insert into cliente_conta (id_cliente, id_conta) values (2, 2);
+insert into cliente_conta (id_cliente, id_conta) values (3, 4);
+insert into cliente_conta (id_cliente, id_conta) values (4, 3);
+insert into cliente_conta (id_cliente, id_conta) values (5, 5);
+insert into cliente_conta (id_cliente, id_conta) values (6, 6);
+insert into cliente_conta (id_cliente, id_conta) values (7, 7);
+insert into cliente_conta (id_cliente, id_conta) values (8, 9);
+insert into cliente_conta (id_cliente, id_conta) values (9, 8);
+insert into cliente_conta (id_cliente, id_conta) values (10, 11);
+insert into cliente_conta (id_cliente, id_conta) values (11, 10);
+insert into cliente_conta (id_cliente, id_conta) values (12, 12);
+insert into cliente_conta (id_cliente, id_conta) values (13, 14);
+insert into cliente_conta (id_cliente, id_conta) values (14, 13);
+insert into cliente_conta (id_cliente, id_conta) values (15, 16);
+insert into cliente_conta (id_cliente, id_conta) values (16, 17);
+insert into cliente_conta (id_cliente, id_conta) values (17, 15);
+insert into cliente_conta (id_cliente, id_conta) values (18, 18);
+insert into cliente_conta (id_cliente, id_conta) values (19, 20);
+insert into cliente_conta (id_cliente, id_conta) values (20, 21);
+insert into cliente_conta (id_cliente, id_conta) values (1, 19);
+insert into cliente_conta (id_cliente, id_conta) values (12, 22);
+insert into cliente_conta (id_cliente, id_conta) values (10, 23);
+insert into cliente_conta (id_cliente, id_conta) values (11, 24);
+insert into cliente_conta (id_cliente, id_conta) values (20, 25);
+
+
+insert into endereco_agencia (id, rua, numero, bairro, cidade, estado, cep, id_agencia) values (1, 'Coleman', '2411', 'Northfield', 'Birmingham', 'SP', '35279', 1);
+insert into endereco_agencia (id, rua, numero, bairro, cidade, estado, cep, id_agencia) values (2, 'Knutson', '80071', 'Oxford', 'Mobile', 'SP', '36641', 2);
+insert into endereco_agencia (id, rua, numero, bairro, cidade, estado, cep, id_agencia) values (3, 'Transport', '8115', 'Golf', 'Montgomery', 'SP', '36134', 3);
+insert into endereco_agencia (id, rua, numero, bairro, cidade, estado, cep, id_agencia) values (4, 'Sloan', '691', 'Sutteridge', 'Mobile', 'PR', '36616', 4);
+insert into endereco_agencia (id, rua, numero, bairro, cidade, estado, cep, id_agencia) values (5, 'Gerald', '48', 'Monica', 'Birmingham', 'RJ', '35225', 5);
+
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (1, 'Schmedeman', '00', '2nd', 'Birmingham', 'AL', '35231', 1);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (2, 'Pawling', '2304', 'Warner', 'Birmingham', 'AL', '35295', 2);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (3, 'Macpherson', '43', 'New Castle', 'Birmingham', 'AL', '35242', 3);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (4, 'Spohn', '7', '8th', 'Montgomery', 'AL', '36195', 4);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (5, 'Michigan', '30757', 'Raven', 'Birmingham', 'AL', '35244', 5);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (6, 'Mendota', '27', 'Goodland', 'Birmingham', 'AL', '35290', 6);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (7, 'Memorial', '701', 'Merry', 'Mobile', 'AL', '36610', 7);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (8, 'Laurel', '69595', 'Morningstar', 'Huntsville', 'AL', '35895', 8);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (9, 'Ridgeview', '44962', 'Cambridge', 'Birmingham', 'AL', '35215', 9);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (10, 'Shopko', '7', 'Crownhardt', 'Birmingham', 'AL', '35285', 10);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (11, 'Memorial', '24', 'Rockefeller', 'Montgomery', 'AL', '36195', 11);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (12, 'Rusk', '57', 'Springs', 'Birmingham', 'AL', '35231', 12);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (13, 'School', '282', 'South', 'Mobile', 'AL', '36622', 13);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (14, 'Maywood', '79', 'Warrior', 'Birmingham', 'AL', '35205', 14);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (15, 'North', '8', 'Golf View', 'Birmingham', 'AL', '35231', 15);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (16, 'Bobwhite', '5319', 'Clove', 'Birmingham', 'AL', '35263', 16);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (17, 'Dakota', '51', 'Killdeer', 'Mobile', 'AL', '36616', 17);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (18, 'Maple', '49428', 'Ridge Oak', 'Tuscaloosa', 'AL', '35487', 18);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (19, 'Westport', '205', 'Autumn Leaf', 'Mobile', 'AL', '36622', 19);
+insert into endereco_cliente (id, rua, numero, bairro, cidade, estado, cep, id_cliente) values (20, 'Village Green', '12', 'Johnson', 'Birmingham', 'AL', '35225', 20);
+
+insert into contato_agencia (id, telefone, id_agencia) values (1, 356-220-5522, 1);
+insert into contato_agencia (id, telefone, id_agencia) values (2, 934-679-2779, 1);
+insert into contato_agencia (id, telefone, id_agencia) values (3, 876-784-7358, 3);
+insert into contato_agencia (id, telefone, id_agencia) values (4, 638-464-3364, 2);
+insert into contato_agencia (id, telefone, id_agencia) values (5, 321-759-8763, 4);
+insert into contato_agencia (id, telefone, id_agencia) values (6, 514-235-9184, 3);
+insert into contato_agencia (id, telefone, id_agencia) values (7, 276-400-9017, 5);
+insert into contato_agencia (id, telefone, id_agencia) values (8, 800-142-1064, 2);
+insert into contato_agencia (id, telefone, id_agencia) values (9, 741-164-6623, 5);
+
+insert into contato_cliente (id, telefone, id_cliente) values (1, 233286062, 1);
+insert into contato_cliente (id, telefone, id_cliente) values (2, 507184603, 2);
+insert into contato_cliente (id, telefone, id_cliente) values (3, 720353105, 3);
+insert into contato_cliente (id, telefone, id_cliente) values (4, 879788981, 4);
+insert into contato_cliente (id, telefone, id_cliente) values (5, 475273579, 5);
+insert into contato_cliente (id, telefone, id_cliente) values (6, 853906822, 6);
+insert into contato_cliente (id, telefone, id_cliente) values (7, 936751374, 7);
+insert into contato_cliente (id, telefone, id_cliente) values (8, 295111895, 8);
+insert into contato_cliente (id, telefone, id_cliente) values (9, 678215703, 9);
+insert into contato_cliente (id, telefone, id_cliente) values (10, 685874095, 10);
+insert into contato_cliente (id, telefone, id_cliente) values (11, 142576182, 11);
+insert into contato_cliente (id, telefone, id_cliente) values (12, 379428852, 12);
+insert into contato_cliente (id, telefone, id_cliente) values (13, 681993800, 13);
+insert into contato_cliente (id, telefone, id_cliente) values (14, 306231323, 14);
+insert into contato_cliente (id, telefone, id_cliente) values (15, 641500415, 15);
+insert into contato_cliente (id, telefone, id_cliente) values (16, 714870323, 16);
+insert into contato_cliente (id, telefone, id_cliente) values (17, 983863491, 17);
+insert into contato_cliente (id, telefone, id_cliente) values (18, 854649924, 18);
+insert into contato_cliente (id, telefone, id_cliente) values (19, 653186852, 19);
+insert into contato_cliente (id, telefone, id_cliente) values (20, 594604320, 20);
+insert into contato_cliente (id, telefone, id_cliente) values (21, 995842388, 2);
+insert into contato_cliente (id, telefone, id_cliente) values (22, 155904780, 3);
+insert into contato_cliente (id, telefone, id_cliente) values (23, 576367923, 8);
+insert into contato_cliente (id, telefone, id_cliente) values (24, 677026147, 15);
+insert into contato_cliente (id, telefone, id_cliente) values (25, 910669434, 20);
+
+insert into tipo_operacao (id, tipo) values (1, 'Saque');
+insert into tipo_operacao (id, tipo) values (2, 'Deposito');
+insert into tipo_operacao (id, tipo) values (3, 'Transferencia');
+insert into tipo_operacao (id, tipo) values (4, 'Aplicação');
+
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (1, 811.61, '2022-02-01 23:59:59', 2, 18);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (2, 774.17, '2022-15-04 18:42:17', 1, 18);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (3, 450.05, '2022-03-01 20:40:07', 2, 6);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (4, 804.59, '2021-14-10 21:14:55', 3, 22);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (5, 152.81, '2022-29-07 14:23:24', 1, 22);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (6, 333.41, '2022-07-05 22:35:24', 2, 14);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (7, 392.96, '2022-04-05 12:01:06', 3, 10);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (8, 564.18, '2022-02-08 13:29:30', 4, 17);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (9, 872.66, '2022-13-02 12:17:31', 4, 17);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (10, 2.19, '2021-28-09 22:35:54', 4, 10);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (11, 341.09, '2021-08-10 21:02:50', 2, 20);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (12, 907.72, '2022-15-03 21:27:09', 2, 6);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (13, 445.16, '2021-24-12 23:43:26', 3, 14);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (14, 304.19, '2022-01-10 19:00:28', 4, 25);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (15, 616.86, '2021-22-08 23:13:47', 3, 13);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (16, 347.75, '2021-15-11 19:26:50', 2, 13);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (17, 780.18, '2022-06-12 15:36:35', 1, 2);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (18, 597.11, '2022-20-04 22:25:46', 3, 25);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (19, 30.07, '2022-17-05 21:09:41', 3, 1);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (20, 729.48, '2021-09-08 20:43:12', 4, 6);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (21, 172.35, '2021-10-09 17:16:10', 4, 8);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (22, 168.78, '2021-12-06 14:37:20', 2, 15);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (23, 213.07, '2021-12-03 12:11:37', 1, 21);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (24, 405.33, '2022-16-03 22:29:30', 2, 11);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (25, 110.2, '2022-14-05 14:16:28', 2, 2);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (26, 145.46, '2021-22-07 19:23:56', 4, 16);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (27, 282.32, '2022-27-05 14:34:48', 2, 4);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (28, 195.2, '2022-03-08 12:48:27', 4, 25);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (29, 688.59, '2022-01-06 14:03:33', 1, 4);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (30, 450.19, '2022-17-01 18:43:48', 3, 23);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (31, 592.45, '2022-29-04 18:24:18', 3, 4);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (32, 468.38, '2022-25-05 19:47:37', 3, 2);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (33, 755.94, '2021-20-09 18:32:58', 1, 14);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (34, 34.06, '2022-25-04 19:01:44', 1, 11);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (35, 833.03, '2021-08-09 15:10:09', 1, 22);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (36, 156.07, '2022-21-06 22:51:30', 3, 2);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (37, 768.65, '2022-06-05 16:14:02', 3, 17);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (38, 571.89, '2022-06-02 20:00:54', 3, 7);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (39, 236.01, '2021-28-07 19:15:07', 2, 6);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (40, 446.73, '2021-09-05 23:47:43', 3, 24);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (41, 935.0, '2021-08-12 12:03:55', 2, 5);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (42, 768.02, '2022-06-06 20:52:45', 2, 23);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (43, 526.4, '2022-02-04 20:26:49', 4, 2);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (44, 792.75, '2022-05-04 20:35:54', 3, 8);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (45, 278.51, '2021-05-12 14:15:17', 3, 1);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (46, 990.42, '2022-01-04 22:16:01', 3, 6);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (47, 512.91, '2022-23-06 21:33:22', 2, 20);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (48, 166.46, '2022-31-07 22:59:26', 1, 5);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (49, 806.88, '2022-05-04 12:42:25', 2, 21);
+insert into operacao (id, valor, data_hora, id_tipo_operacao, id_conta) values (50, 367.33, '2022-06-09 20:56:18', 3, 4);
